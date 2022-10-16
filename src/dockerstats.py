@@ -29,8 +29,9 @@ class DockerStats:
 
     def plot_category(self, category, size=(10, 5)):
         fig, ax = plt.subplots(figsize=size)
-        names = self.df["NAME"].unique()
-        self.df.reset_index().groupby('NAME').plot(x='DATE', y=category, ax=ax)
+        grouped_df = self.df.reset_index().groupby('NAME')
+        names = [service for service, _ in grouped_df]
+        grouped_df.plot(x='DATE', y=category, ax=ax)
         plt.legend(names, title='apps', bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.ylabel(self.__category_label(category))
         plt.xlabel('Time')
